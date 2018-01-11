@@ -35,8 +35,13 @@
             {
                 "command": "extension.lineCenter",
                 "key": "ctrl+;",
-                "mac": "ctrl+;",
+                "mac": "enter",
                 "when": "editorTextFocus"
+            },{
+                "command": "extension.lineCenter",
+                "key": "ctrl+;",
+                "mac": "down",
+                "when": "editorTextFocus && true"
             }
         ]
     },
