@@ -26,9 +26,9 @@ function activate(context) {
         // vscode.commands.executeCommand("workbench.action.gotoLine", 55);
         // vscode.window.showInformationMessage(JSON.stringify(vscode..));
         let editor = vscode.window.activeTextEditor;
-        let range = editor.document.lineAt(55 - 1).range;
+        let range = editor.document.lineAt(100 - 1).range;
         editor.selection = new vscode.Selection(range.start, range.end);
-        editor.revealRange(range);
+        // editor.revealRange(range);
         let mid = editor.document.validateRange(new vscode.Range(new vscode.Position(0, 0), new vscode.Position(1000, 0)));
 
         vscode.window.showInformationMessage(JSON.stringify(editor));
@@ -36,10 +36,12 @@ function activate(context) {
         try {
             console.log(editor.document.validateRange(new vscode.Range(new vscode.Position(0, 0), new vscode.Position(1000, 0))));
             vscode.window.showInformationMessage(mid.end.line);
-            console.log(JSON.stringify(vscode.window.visibleTextEditors));
+            console.log(JSON.stringify(vscode.window.visibleTextEditors.viewColumn));
+            vscode.window.activeTextEditor.revealRange(range, 1);
         }catch(e){
             console.log(e)     
         }
+        
         vscode.window.showInformationMessage();
         vscode.window.showInformationMessage();
         vscode.window.showInformationMessage();
