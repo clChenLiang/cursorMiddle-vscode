@@ -6,6 +6,8 @@ const vscode = require('vscode');
 // your extension is activated the very first time the command is executed
 function activate(context) {
 
+    let watchChanged = vscode.workspace.createFileSystemWatcher("changed");
+    
     // Use the console to output diagnostic information (console.log) and errors (console.error)
     // This line of code will only be executed once when your extension is activated
     console.log('Congratulations, your extension "cursormiddle" is now active!');
@@ -41,20 +43,32 @@ function activate(context) {
         }catch(e){
             console.log(e)     
         }
-        
-        vscode.window.showInformationMessage();
-        vscode.window.showInformationMessage();
-        vscode.window.showInformationMessage();
-        vscode.window.showInformationMessage();
-        vscode.window.showInformationMessage();
-        vscode.window.showInformationMessage();
-        vscode.window.showInformationMessage();
-        vscode.window.showInformationMessage();
-        vscode.window.showInformationMessage();
     })
+    let lineCenter = vscode.commands.registerCommand('extension.lineCenter',function () {
+        console.log('use lineToCenter');
+        currentLineToCenter();
+    })
+    /**
+     * 将当前行居中
+     */
+    let currentLineToCenter = function () {
+        let curLine = vscode.window.activeTextEditor.selection.start.line;
+        _lineToPlace(curLine,'center')
+    }
+    /**
+     * 将指定行移至指定位置
+     * @param {Line} line 要居中的行
+     * @param {string} 放置的位置 -- 枚举：居中，顶部，头部
+     */
+    let _lineToPlace = function (line,place) {
+        vscode.commands.executeCommand('revealLine',{
+            lineNumber: line,
+            at: place
+        })
+    }
     context.subscriptions.push(disposable);
     context.subscriptions.push(cc);
-
+    context.subscriptions.push(lineCenter);
     // let changPosition = vscode.commands.registerCommand('extension.setPosition',function name(params) {
     // let textEditor = vscode.window.activeTextEditor;
     // textEditor.selection

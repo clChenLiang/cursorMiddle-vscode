@@ -12,17 +12,33 @@
     ],
     "activationEvents": [
         "onCommand:extension.sayHello",
-        "onCommand:extension.saychelinag"
+        "onCommand:extension.saychelinag",
+        "onCommand:extension.lineCenter"
     ],
     "main": "./extension",
     "contributes": {
-        "commands": [{
-            "command": "extension.sayHello",
-            "title": "Hello World"
-        },{
-            "command": "extension.saychelinag",
-            "title": "ccc"
-        }]
+        "commands": [
+            {
+                "command": "extension.sayHello",
+                "title": "Hello World"
+            },
+            {
+                "command": "extension.saychelinag",
+                "title": "ccc"
+            },
+            {
+                "command": "extension.lineCenter",
+                "title": "line to center"
+            }
+        ],
+        "keybindings": [
+            {
+                "command": "extension.lineCenter",
+                "key": "ctrl+;",
+                "mac": "ctrl+;",
+                "when": "editorTextFocus"
+            }
+        ]
     },
     "scripts": {
         "postinstall": "node ./node_modules/vscode/bin/install",
