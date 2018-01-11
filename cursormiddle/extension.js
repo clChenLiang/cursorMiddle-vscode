@@ -19,12 +19,50 @@ function activate(context) {
         // Display a message box to the user
         vscode.window.showInformationMessage('Hello World!');
     });
+    let cc = vscode.commands.registerCommand('extension.saychelinag',function () {
+        vscode.window.showInformationMessage('Hello ccc!');
+        vscode.window.showInformationMessage(JSON.stringify(vscode.window.activeTextEditor.selection));
+        // vscode.window.showInformationMessage('workspaceedit.size',JSON.stringify(vscode.WorkspaceEdit.size));
+        // vscode.commands.executeCommand("workbench.action.gotoLine", 55);
+        // vscode.window.showInformationMessage(JSON.stringify(vscode..));
+        let editor = vscode.window.activeTextEditor;
+        let range = editor.document.lineAt(55 - 1).range;
+        editor.selection = new vscode.Selection(range.start, range.end);
+        editor.revealRange(range);
+        let mid = editor.document.validateRange(new vscode.Range(new vscode.Position(0, 0), new vscode.Position(1000, 0)));
 
+        vscode.window.showInformationMessage(JSON.stringify(editor));
+        console.log(editor.document.fileName,editor.document.lineCount, editor.document.lineAt(0));
+        try {
+            console.log(editor.document.validateRange(new vscode.Range(new vscode.Position(0, 0), new vscode.Position(1000, 0))));
+            vscode.window.showInformationMessage(mid.end.line);
+            console.log(JSON.stringify(vscode.window.visibleTextEditors));
+        }catch(e){
+            console.log(e)     
+        }
+        vscode.window.showInformationMessage();
+        vscode.window.showInformationMessage();
+        vscode.window.showInformationMessage();
+        vscode.window.showInformationMessage();
+        vscode.window.showInformationMessage();
+        vscode.window.showInformationMessage();
+        vscode.window.showInformationMessage();
+        vscode.window.showInformationMessage();
+        vscode.window.showInformationMessage();
+    })
     context.subscriptions.push(disposable);
+    context.subscriptions.push(cc);
+
+    // let changPosition = vscode.commands.registerCommand('extension.setPosition',function name(params) {
+    // let textEditor = vscode.window.activeTextEditor;
+    // textEditor.selection
+    // })
 }
 exports.activate = activate;
 
 // this method is called when your extension is deactivated
 function deactivate() {
+    console.log('start a console.log !');
+    // vscode.window.showInformationMessage('aslkfjaslkjf');
 }
 exports.deactivate = deactivate;

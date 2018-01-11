@@ -5,19 +5,23 @@
     "version": "0.0.1",
     "publisher": "clchenliang",
     "engines": {
-        "vscode": "^1.19.0"
+        "vscode": "^1.17.0"
     },
     "categories": [
         "Other"
     ],
     "activationEvents": [
-        "onCommand:extension.sayHello"
+        "onCommand:extension.sayHello",
+        "onCommand:extension.saychelinag"
     ],
     "main": "./extension",
     "contributes": {
         "commands": [{
             "command": "extension.sayHello",
             "title": "Hello World"
+        },{
+            "command": "extension.saychelinag",
+            "title": "ccc"
         }]
     },
     "scripts": {
