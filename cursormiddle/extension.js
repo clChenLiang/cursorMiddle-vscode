@@ -7,7 +7,7 @@ const vscode = require('vscode');
 function activate(context) {
 
     let watchChanged = vscode.workspace.createFileSystemWatcher("changed");
-    
+
     // Use the console to output diagnostic information (console.log) and errors (console.error)
     // This line of code will only be executed once when your extension is activated
     console.log('Congratulations, your extension "cursormiddle" is now active!');
@@ -46,6 +46,7 @@ function activate(context) {
     })
     let lineCenter = vscode.commands.registerCommand('extension.lineCenter',function () {
         console.log('use lineToCenter');
+        vscode.commands.executeCommand("editor.action.insertLineAfter");
         currentLineToCenter();
     })
     /**
