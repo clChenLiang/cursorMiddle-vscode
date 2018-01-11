@@ -41,7 +41,7 @@
                 "command": "extension.lineCenter",
                 "key": "ctrl+;",
                 "mac": "down",
-                "when": "editorTextFocus && true"
+                "when": "editorTextFocus"
             }
         ]
     },
