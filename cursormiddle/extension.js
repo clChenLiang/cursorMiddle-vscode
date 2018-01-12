@@ -9,11 +9,6 @@ function activate(context) {
     });
 
     let cc = vscode.commands.registerCommand('extension.saychelinag',function () {
-        vscode.window.showInformationMessage('Hello ccc!');
-        vscode.window.showInformationMessage(JSON.stringify(vscode.window.activeTextEditor.selection));
-        // vscode.window.showInformationMessage('workspaceedit.size',JSON.stringify(vscode.WorkspaceEdit.size));
-        // vscode.commands.executeCommand("workbench.action.gotoLine", 55);
-        // vscode.window.showInformationMessage(JSON.stringify(vscode..));
         let editor = vscode.window.activeTextEditor;
         let range = editor.document.lineAt(100 - 1).range;
         editor.selection = new vscode.Selection(range.start, range.end);
@@ -36,26 +31,11 @@ function activate(context) {
         try{
             console.log('use lineToCenter');
             // vscode.commands.executeCommand("editor.action.insertLineAfter");
+            // 当前光标所在位置
             let selectStart = vscode.window.activeTextEditor.selection.active;
-            console.log(selectStart);
-            vscode.commands.executeCommand("workbench.action.interactivePlayground.arrowDown");
-            // visibleTextEditors 中处于活动的
-            console.log(vscode.window.activeTextEditor); 
-            // console.log(vscode.window.visibleTextEditors);
-            // 没报错，但是没效果
-            // vscode.TextEdit.insert(selectStart,"aaaaa\n");
-            // vscode.TextEdit.replace(new vscode.Range(selectStart, selectStart.translate({ characterDelta: 0, lineDelta: 1 })), "aaaaa\n");
-            let _positon_1 = new vscode.Position(180,0);
-            let _positon_2 = new vscode.Position(180,20);
-            let _range = new vscode.Range(_positon_1, _positon_2);
-            console.log(_range,selectStart);
-            let curRange = new vscode.Range(selectStart, selectStart/* .translate({ characterDelta: 0, lineDelta: 0 }) */);
-            console.log('translate:');
-            // console.log(vscode.window.activeTextEditor.edit(m => m.replace(curRange, "\n")));
-            // 实现功能，但下行为空的时候不能自动回到行首！！！
-            console.log(vscode.window.activeTextEditor.edit(m => m.insert(selectStart, "\r\t")));
-            // vscode.commands.executeCommand("editor.action.insertLineBefore");
-            console.log('adfa');
+            let replaceText = vscode.workspace.textDocuments[0].getText(new vscode.Range(selectStart,selectStart.translate(1,6)));
+            console.log(`get the text : ${replaceText}`);
+            vscode.window.activeTextEditor.edit(m => m.insert(selectStart, replaceText.replace(/\s/g,"") ? "\r\t":"\r"));
             currentLineToCenter();
         }catch(e){
             console.log('error',e);
@@ -96,5 +76,21 @@ exports.activate = activate;
 function deactivate() {
     console.log('start a console.log !');
     // vscode.window.showInformationMessage('aslkfjaslkjf');
+}
+function isBlack(string) {
+    for(let i in string) {
+        switch (string[i]) {
+            case "":
+            case "\t":
+            case " ":
+            case "\b":
+            case "\r":
+                break;
+            default:
+                return false;
+                break;
+        }
+    }
+    return true;
 }
 exports.deactivate = deactivate;
