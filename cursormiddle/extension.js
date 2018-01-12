@@ -45,7 +45,17 @@ function activate(context) {
             // 没报错，但是没效果
             // vscode.TextEdit.insert(selectStart,"aaaaa\n");
             // vscode.TextEdit.replace(new vscode.Range(selectStart, selectStart.translate({ characterDelta: 0, lineDelta: 1 })), "aaaaa\n");
-            vscode.commands.executeCommand("editor.action.insertLineBefore");
+            let _positon_1 = new vscode.Position(180,0);
+            let _positon_2 = new vscode.Position(180,20);
+            let _range = new vscode.Range(_positon_1, _positon_2);
+            console.log(_range,selectStart);
+            let curRange = new vscode.Range(selectStart, selectStart/* .translate({ characterDelta: 0, lineDelta: 0 }) */);
+            console.log('translate:');
+            // console.log(vscode.window.activeTextEditor.edit(m => m.replace(curRange, "\n")));
+            // 实现功能，但下行为空的时候不能自动回到行首！！！
+            console.log(vscode.window.activeTextEditor.edit(m => m.insert(selectStart, "\r\t")));
+            // vscode.commands.executeCommand("editor.action.insertLineBefore");
+            console.log('adfa');
             currentLineToCenter();
         }catch(e){
             console.log('error',e);
