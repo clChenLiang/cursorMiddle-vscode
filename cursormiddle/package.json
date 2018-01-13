@@ -11,21 +11,12 @@
         "Other"
     ],
     "activationEvents": [
-        "onCommand:extension.sayHello",
-        "onCommand:extension.saychelinag",
-        "onCommand:extension.lineCenter"
+        "onCommand:extension.enterLineCenter",
+        "onCommand:extension.downLineCenter"
     ],
     "main": "./extension",
     "contributes": {
         "commands": [
-            {
-                "command": "extension.sayHello",
-                "title": "Hello World"
-            },
-            {
-                "command": "extension.saychelinag",
-                "title": "ccc"
-            },
             {
                 "command": "extension.lineCenter",
                 "title": "line to center"
@@ -33,12 +24,12 @@
         ],
         "keybindings": [
             {
-                "command": "extension.lineCenter",
+                "command": "extension.enterLineCenter",
                 "key": "ctrl+;",
                 "mac": "enter",
                 "when": "editorTextFocus"
             },{
-                "command": "extension.lineCenter",
+                "command": "extension.downLineCenter",
                 "key": "ctrl+;",
                 "mac": "down",
                 "when": "editorTextFocus"
