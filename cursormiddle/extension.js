@@ -2,7 +2,16 @@
 const vscode = require('vscode');
 
 function activate(context) {
-    let lineCenter = vscode.commands.registerCommand('extension.lineCenter',function () {
+    let downCenter = vscode.commands.registerCommand('extension.downLineCenter',function () {
+        vscode.commands.executeCommand("workbench.action.interactivePlayground.arrowDown");
+        let nextCursorPosition = vscode.window.activeTextEditor.selection.active.translate(3, 0);
+        let newRange = new vscode.Range(nextCursorPosition, nextCursorPosition.translate(0, 1));
+
+        vscode.window.activeTextEditor.revealRange()
+        currentLineToCenter();
+    });
+
+    let lineCenter = vscode.commands.registerCommand('extension.enterLineCenter',function () {
         try{
             console.log('use lineToCenter');
             // vscode.commands.executeCommand("editor.action.insertLineAfter");
@@ -24,19 +33,24 @@ function activate(context) {
             // 函数或者对象 { 后多加一个 tab
             // let nextEnterOREnterTabString = _getLastNotBlackString(curLineText) === '{' ? '\t' : '';
             let nextEnterOREnterTabString = _getLastNotBlackString(curLineText.substring(0,selectStart.character)) === '{' ? '\t' : '';
-            // 对 } 结尾的，应该再额外操作 --- 需要从 选中的位置 到 最后
+            // 对 {} 结尾的，应该再额外操作 --- 需要从 选中的位置 到 最后
+            // 为 ; 
             let insertText = "\r" + _getPreBlackString(curLineText) + nextEnterOREnterTabString;
 
             console.log(`get the text : ${insertText}`);
             vscode.window.activeTextEditor.edit(m => m.insert(selectStart, insertText));
+
+            console.log(`after insert the selector is ${JSON.stringify(vscode.window.activeTextEditor.selection.active)}`);
             currentLineToCenter();
+            console.log(`after insert the selector is ${JSON.stringify(vscode.window.activeTextEditor.selection.active)}`);
         }catch(e){
             console.log('error',e);
         }
         
     })
 
-
+    context.subscriptions.push(lineCenter);
+    context.subscriptions.push(downCenter);
     /**
      * 将当前行居中
      */
@@ -73,7 +87,6 @@ function activate(context) {
         console.log('get the lastNotBlack :',index, string.substring(index, index + 1));
         return string.substring(index,index+1);
     }
-    context.subscriptions.push(lineCenter);
     // let changPosition = vscode.commands.registerCommand('extension.setPosition',function name(params) {
     // let textEditor = vscode.window.activeTextEditor;
     // textEditor.selection
