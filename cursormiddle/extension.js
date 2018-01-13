@@ -1,4 +1,5 @@
 import { prependListener } from 'cluster';
+import { strictEqual } from 'assert';
 
 const vscode = require('vscode');
 
@@ -54,8 +55,10 @@ function activate(context) {
         return string.substring(0,index+1);
     }
     function _getLastNotBlaclString(string) {
-        
-        
+        if (typeof string !== "string") return "";
+        let index = string.search(/\w\s*$/);
+        console.log(index);
+        return string.substring(index,index+1);
     }
     context.subscriptions.push(lineCenter);
     // let changPosition = vscode.commands.registerCommand('extension.setPosition',function name(params) {
