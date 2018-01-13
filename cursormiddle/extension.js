@@ -1,3 +1,4 @@
+
 const vscode = require('vscode');
 
 function activate(context) {
@@ -8,6 +9,7 @@ function activate(context) {
             // 当前光标所在位置
             let selectStart = vscode.window.activeTextEditor.selection.active;
             // 以当前位置向下检查一行：为空则加回车
+            console.log(`the selector is :${JSON.stringify(selectStart)}`);
             let nextLinePreText = vscode.workspace.textDocuments[0].getText(new vscode.Range(selectStart,selectStart.translate(1,6)));
             // console.log(`the current lineText : ${}`);
             // let preRange = new vscode.Range()
@@ -15,15 +17,16 @@ function activate(context) {
             let curLineText = vscode.workspace.textDocuments[0].lineAt(selectStart.line).text;
             // preText = preText.substr(0,preText.indexOf(  ));
             // let nextLinePrecedingText = replaceText.replace(/\s/g, "") ? "\r\t" : "\r";
-            console.log(`preText is :${curLineText}`);
+            console.log(`curLineText is :--${curLineText}--`);
             // let curLine = vscode.window.activeTextEditor.selection.start.line;
             // let nextEnterOREnterTabString = nextLinePreText.replace(/\s/g, "") ? "\t" : "";
             // 函数或者对象 { 后多加一个 tab
-            let nextEnterOREnterTabString = _getLastNotBlackString(curLineText) === '{' ? '\t' : '';
-            
+            // let nextEnterOREnterTabString = _getLastNotBlackString(curLineText) === '{' ? '\t' : '';
+            let nextEnterOREnterTabString = _getLastNotBlackString(curLineText.substring(0,selectStart.character)) === '{' ? '\t' : '';
+            // 对 } 结尾的，应该再额外操作 --- 需要从 选中的位置 到 最后
             let insertText = "\r" + _getPreBlackString(curLineText) + nextEnterOREnterTabString;
 
-            console.log(`get the text : ${_getLastNotBlackString(curLineText)}`);
+            console.log(`get the text : ${insertText}`);
             vscode.window.activeTextEditor.edit(m => m.insert(selectStart, insertText));
             currentLineToCenter();
         }catch(e){
@@ -53,10 +56,11 @@ function activate(context) {
         })
     }
     function _getPreBlackString(string) {
+        console.log(`_getPreBlackString :--${string,typeof string}--`);
         if (typeof string !== "string") return "";
         // 获得首个非空字符前置位 index
-        let index = string.search(/\s\w/);
-        console.log(index);
+        let index = string.search(/[^\s]/);
+        console.log(`get the preBlack text :--${index, string.substring(0, index + 1)}--`);
         return string.substring(0,index+1);
     }
     function _getLastNotBlackString(string) {
