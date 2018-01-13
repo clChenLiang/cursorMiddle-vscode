@@ -55,6 +55,7 @@ function activate(context) {
     }
     function _getLastNotBlaclString(string) {
         
+        
     }
     context.subscriptions.push(lineCenter);
     // let changPosition = vscode.commands.registerCommand('extension.setPosition',function name(params) {
