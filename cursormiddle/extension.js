@@ -1,6 +1,3 @@
-import { prependListener } from 'cluster';
-import { strictEqual } from 'assert';
-
 const vscode = require('vscode');
 
 function activate(context) {
@@ -11,15 +8,20 @@ function activate(context) {
             // 当前光标所在位置
             let selectStart = vscode.window.activeTextEditor.selection.active;
             // 以当前位置向下检查一行：为空则加回车
-            let replaceText = vscode.workspace.textDocuments[0].getText(new vscode.Range(selectStart,selectStart.translate(1,6)));
+            let nextLinePreText = vscode.workspace.textDocuments[0].getText(new vscode.Range(selectStart,selectStart.translate(1,6)));
             console.log(selectStart.start);
             // let preRange = new vscode.Range()
-            let preText = vscode.workspace.textDocuments[0].lineAt(selectStart.line).text;
-            preText = preText.substr(0,preText.indexOf(  ));
-            console.log(`preText is :${preText}`);
+            // 鼠标所在当前行的文本
+            let curLineText = vscode.workspace.textDocuments[0].lineAt(selectStart.line).text;
+            // preText = preText.substr(0,preText.indexOf(  ));
+            // let nextLinePrecedingText = replaceText.replace(/\s/g, "") ? "\r\t" : "\r";
+            console.log(`preText is :${curLineText}`);
             // let curLine = vscode.window.activeTextEditor.selection.start.line;
-            console.log(`get the text : ${replaceText}`);
-            vscode.window.activeTextEditor.edit(m => m.insert(selectStart, replaceText.replace(/\s/g,"") ? "\r\t":"\r"));
+            let nextEnterOREnterTabString = nextLinePreText.replace(/\s/g, "") ? "\t" : "";
+            let insertText = "\r" + _getPreBlackString(curLineText) + nextEnterOREnterTabString;
+
+            console.log(`get the text : ${insertText}`);
+            vscode.window.activeTextEditor.edit(m => m.insert(selectStart, insertText));
             currentLineToCenter();
         }catch(e){
             console.log('error',e);
