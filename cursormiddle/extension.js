@@ -9,7 +9,7 @@ function activate(context) {
             let selectStart = vscode.window.activeTextEditor.selection.active;
             // 以当前位置向下检查一行：为空则加回车
             let nextLinePreText = vscode.workspace.textDocuments[0].getText(new vscode.Range(selectStart,selectStart.translate(1,6)));
-            console.log(selectStart.start);
+            // console.log(`the current lineText : ${}`);
             // let preRange = new vscode.Range()
             // 鼠标所在当前行的文本
             let curLineText = vscode.workspace.textDocuments[0].lineAt(selectStart.line).text;
@@ -17,10 +17,13 @@ function activate(context) {
             // let nextLinePrecedingText = replaceText.replace(/\s/g, "") ? "\r\t" : "\r";
             console.log(`preText is :${curLineText}`);
             // let curLine = vscode.window.activeTextEditor.selection.start.line;
-            let nextEnterOREnterTabString = nextLinePreText.replace(/\s/g, "") ? "\t" : "";
+            // let nextEnterOREnterTabString = nextLinePreText.replace(/\s/g, "") ? "\t" : "";
+            // 函数或者对象 { 后多加一个 tab
+            let nextEnterOREnterTabString = _getLastNotBlackString(curLineText) === '{' ? '\t' : '';
+            
             let insertText = "\r" + _getPreBlackString(curLineText) + nextEnterOREnterTabString;
 
-            console.log(`get the text : ${insertText}`);
+            console.log(`get the text : ${_getLastNotBlackString(curLineText)}`);
             vscode.window.activeTextEditor.edit(m => m.insert(selectStart, insertText));
             currentLineToCenter();
         }catch(e){
@@ -56,10 +59,12 @@ function activate(context) {
         console.log(index);
         return string.substring(0,index+1);
     }
-    function _getLastNotBlaclString(string) {
+    function _getLastNotBlackString(string) {
         if (typeof string !== "string") return "";
-        let index = string.search(/\w\s*$/);
-        console.log(index);
+        // 最后一个非空字符
+        let index = string.search(/.\s*$/);
+        console.log(`get the param string : -${string}-`);
+        console.log('get the lastNotBlack :',index, string.substring(index, index + 1));
         return string.substring(index,index+1);
     }
     context.subscriptions.push(lineCenter);
