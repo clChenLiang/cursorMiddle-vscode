@@ -11,6 +11,7 @@ function activate(context) {
             // 以当前位置向下检查一行：为空则加回车
             console.log(`the selector is :${JSON.stringify(selectStart)}`);
             let nextLinePreText = vscode.workspace.textDocuments[0].getText(new vscode.Range(selectStart,selectStart.translate(1,6)));
+            console.log(`the nextLineText :${nextLinePreText}`);
             // console.log(`the current lineText : ${}`);
             // let preRange = new vscode.Range()
             // 鼠标所在当前行的文本
@@ -56,12 +57,13 @@ function activate(context) {
         })
     }
     function _getPreBlackString(string) {
-        console.log(`_getPreBlackString :--${string,typeof string}--`);
+        console.log(`_getPreBlackString :--${string},${(typeof string)}--`);
         if (typeof string !== "string") return "";
         // 获得首个非空字符前置位 index
+        // /[{\w]/
         let index = string.search(/[^\s]/);
-        console.log(`get the preBlack text :--${index, string.substring(0, index + 1)}--`);
-        return string.substring(0,index+1);
+        console.log(`get the preBlack text :--${index}, ${string.substring(0, index + 1)}--`);
+        return string.substring(0,index);
     }
     function _getLastNotBlackString(string) {
         if (typeof string !== "string") return "";
