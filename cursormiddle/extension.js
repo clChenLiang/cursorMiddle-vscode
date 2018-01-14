@@ -7,7 +7,7 @@ function activate(context) {
         let nextCursorPosition = vscode.window.activeTextEditor.selection.active.translate(3, 0);
         let newRange = new vscode.Range(nextCursorPosition, nextCursorPosition.translate(0, 1));
 
-        vscode.window.activeTextEditor.revealRange()
+        // vscode.window.activeTextEditor.revealRange()
         currentLineToCenter();
     });
 
@@ -39,7 +39,12 @@ function activate(context) {
 
             console.log(`get the text : ${insertText}`);
             vscode.window.activeTextEditor.edit(m => m.insert(selectStart, insertText));
-
+            // 前移一行
+            vscode.commands.executeCommand('cursorMove', { 
+                to: 'up',
+                by: 'line',
+                value: 1
+            });
             console.log(`after insert the selector is ${JSON.stringify(vscode.window.activeTextEditor.selection.active)}`);
             currentLineToCenter();
             console.log(`after insert the selector is ${JSON.stringify(vscode.window.activeTextEditor.selection.active)}`);
