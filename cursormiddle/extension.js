@@ -3,7 +3,6 @@ const vscode = require('vscode');
 // 设置全局变量：是否打开居中功能
 let isOpenCenterLine = false;
 
-
 function activate(context) {
     // 全局开启功能
     let openCloseCenterLineExtension = vscode.commands.registerCommand('extension.openCenterLine', function () {
@@ -12,6 +11,7 @@ function activate(context) {
     })
     // 方向下 绑定功能 -- 未完成
     let downCenter = vscode.commands.registerCommand('extension.downLineCenter',function () {
+        if(!this.isOpenCenterLine) return ;
         vscode.commands.executeCommand("workbench.action.interactivePlayground.arrowDown");
         let nextCursorPosition = vscode.window.activeTextEditor.selection.active.translate(3, 0);
         let newRange = new vscode.Range(nextCursorPosition, nextCursorPosition.translate(0, 1));
@@ -20,7 +20,8 @@ function activate(context) {
         currentLineToCenter();
     });
 
-    let lineCenter = vscode.commands.registerCommand('extension.enterLineCenter',function () {
+    let lineCenter = vscode.commands.registerCommand('extension.enterLineCenter', function () {
+        if (!this.isOpenCenterLine) return;
         try{
             console.log('use lineToCenter');
             // 当前光标所在位置
