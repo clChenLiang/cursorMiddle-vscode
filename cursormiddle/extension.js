@@ -14,22 +14,15 @@ function activate(context) {
     let lineCenter = vscode.commands.registerCommand('extension.enterLineCenter',function () {
         try{
             console.log('use lineToCenter');
-            // vscode.commands.executeCommand("editor.action.insertLineAfter");
             // 当前光标所在位置
             let selectStart = vscode.window.activeTextEditor.selection.active;
             // 以当前位置向下检查一行：为空则加回车
             console.log(`the selector is :${JSON.stringify(selectStart)}`);
             let nextLinePreText = vscode.workspace.textDocuments[0].getText(new vscode.Range(selectStart,selectStart.translate(1,6)));
             console.log(`the nextLineText :${nextLinePreText}`);
-            // console.log(`the current lineText : ${}`);
-            // let preRange = new vscode.Range()
             // 鼠标所在当前行的文本
             let curLineText = vscode.workspace.textDocuments[0].lineAt(selectStart.line).text;
-            // preText = preText.substr(0,preText.indexOf(  ));
-            // let nextLinePrecedingText = replaceText.replace(/\s/g, "") ? "\r\t" : "\r";
             console.log(`curLineText is :--${curLineText}--`);
-            // let curLine = vscode.window.activeTextEditor.selection.start.line;
-            // let nextEnterOREnterTabString = nextLinePreText.replace(/\s/g, "") ? "\t" : "";
             // 函数或者对象 { 后多加一个 tab
             // let nextEnterOREnterTabString = _getLastNotBlackString(curLineText) === '{' ? '\t' : '';
             let nextEnterOREnterTabString = _getLastNotBlackString(curLineText.substring(0,selectStart.character)) === '{' ? '\t' : '';
@@ -40,11 +33,11 @@ function activate(context) {
             console.log(`get the text : ${insertText}`);
             vscode.window.activeTextEditor.edit(m => m.insert(selectStart, insertText));
             // 前移一行
-            vscode.commands.executeCommand('cursorMove', { 
+            /* vscode.commands.executeCommand('cursorMove', {
                 to: 'up',
                 by: 'wrappedLine',
                 value: 1
-            });
+            }); */
             console.log(`after insert the selector is ${JSON.stringify(vscode.window.activeTextEditor.selection.active)}`);
             currentLineToCenter();
             console.log(`after insert the selector is ${JSON.stringify(vscode.window.activeTextEditor.selection.active)}`);
@@ -84,6 +77,7 @@ function activate(context) {
         console.log(`get the preBlack text :--${index}, ${string.substring(0, index + 1)}--`);
         return string.substring(0,index);
     }
+
     function _getLastNotBlackString(string) {
         if (typeof string !== "string") return "";
         // 最后一个非空字符
@@ -92,10 +86,31 @@ function activate(context) {
         console.log('get the lastNotBlack :',index, string.substring(index, index + 1));
         return string.substring(index,index+1);
     }
-    // let changPosition = vscode.commands.registerCommand('extension.setPosition',function name(params) {
-    // let textEditor = vscode.window.activeTextEditor;
-    // textEditor.selection
-    // })
+
+    function _addLineAfterCurrentByMoveCursor(n) {
+        
+    }
+
+    /**
+     * 将鼠标上下移动，以行为单位
+     * @param {string} direction enum {up,down}
+     * @param {number} lines 
+     */
+    function _moveCursorVertical(direction, lines) {
+        vscode.commands.executeCommand('cursorMove', {
+            to: direction,
+            by: 'wrappedLine',
+            value: lines
+        });
+    }
+    /**
+     * 将鼠标水平移动，即在当前行左右移动
+     * @param {string:['left','right']} direction 
+     * @param {number} chars 移动的字符串数
+     */
+    function _moveCursorHorizontal(direction, chars) {
+
+    }
 }
 exports.activate = activate;
 
