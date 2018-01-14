@@ -1,5 +1,7 @@
 
 const vscode = require('vscode');
+// 设置全局变量：是否打开居中功能
+let centerLineState = false;
 
 function activate(context) {
     let downCenter = vscode.commands.registerCommand('extension.downLineCenter',function () {
