@@ -42,7 +42,7 @@ function activate(context) {
             // 前移一行
             vscode.commands.executeCommand('cursorMove', { 
                 to: 'up',
-                by: 'line',
+                by: 'wrappedLine',
                 value: 1
             });
             console.log(`after insert the selector is ${JSON.stringify(vscode.window.activeTextEditor.selection.active)}`);
