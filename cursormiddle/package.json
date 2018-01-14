@@ -12,7 +12,8 @@
     ],
     "activationEvents": [
         "onCommand:extension.enterLineCenter",
-        "onCommand:extension.downLineCenter"
+        "onCommand:extension.downLineCenter",
+        "onCommand:extension.openCenterLine"
     ],
     "main": "./extension",
     "contributes": {
@@ -32,6 +33,11 @@
                 "command": "extension.downLineCenter",
                 "key": "down",
                 "mac": "down",
+                "when": "editorTextFocus"
+            },{
+                "command": "extension.openCenterLine",
+                "key": "ctrl+;",
+                "mac": "cmd+;",
                 "when": "editorTextFocus"
             }
         ]

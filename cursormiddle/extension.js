@@ -1,9 +1,16 @@
 
 const vscode = require('vscode');
 // 设置全局变量：是否打开居中功能
-let centerLineState = false;
+let isOpenCenterLine = false;
+
 
 function activate(context) {
+    // 全局开启功能
+    let openCloseCenterLineExtension = vscode.commands.registerCommand('extension.openCenterLine', function () {
+        this.isOpenCenterLine = !this.isOpenCenterLine;
+        console.log('1--. 插件是否启用', this.isOpenCenterLine);
+    })
+    // 方向下 绑定功能 -- 未完成
     let downCenter = vscode.commands.registerCommand('extension.downLineCenter',function () {
         vscode.commands.executeCommand("workbench.action.interactivePlayground.arrowDown");
         let nextCursorPosition = vscode.window.activeTextEditor.selection.active.translate(3, 0);
@@ -51,6 +58,7 @@ function activate(context) {
 
     context.subscriptions.push(lineCenter);
     context.subscriptions.push(downCenter);
+    context.subscriptions.push(openCloseCenterLineExtension);
     /**
      * 将当前行居中
      */
