@@ -1,9 +1,9 @@
 {
     "name": "cursormiddle",
     "displayName": "cursorMiddle",
-    "description": "将当前光标所在的行居中",
+    "description": "居中当前工作行",
     "version": "0.0.1",
-    "publisher": "clchenliang",
+    "publisher": "clchenliang@hotmail.com",
     "engines": {
         "vscode": "^1.17.0"
     },
@@ -19,18 +19,18 @@
         "commands": [
             {
                 "command": "extension.lineCenter",
-                "title": "line to center"
+                "title": "Center line"
             }
         ],
         "keybindings": [
             {
                 "command": "extension.enterLineCenter",
-                "key": "ctrl+;",
+                "key": "enter",
                 "mac": "enter",
                 "when": "editorTextFocus"
             },{
                 "command": "extension.downLineCenter",
-                "key": "ctrl+;",
+                "key": "down",
                 "mac": "down",
                 "when": "editorTextFocus"
             }
