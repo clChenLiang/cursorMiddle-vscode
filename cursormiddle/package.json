@@ -17,6 +17,13 @@
     ],
     "main": "./extension",
     "contributes": {
+        "properties": {
+            "cursorMiddle.openKey": {
+                "type": "boolean",
+                "default": true,
+                "description": "控制是否启用"
+            }
+        },
         "commands": [
             {
                 "command": "extension.lineCenter",
@@ -28,7 +35,7 @@
                 "command": "extension.enterLineCenter",
                 "key": "enter",
                 "mac": "enter",
-                "when": "editorTextFocus"
+                "when": "editorTextFocus && cursorMiddle.openKey"
             },{
                 "command": "extension.downLineCenter",
                 "key": "down",

@@ -7,11 +7,21 @@ function activate(context) {
     // 全局开启功能
     let openCloseCenterLineExtension = vscode.commands.registerCommand('extension.openCenterLine', function () {
         this.isOpenCenterLine = !this.isOpenCenterLine;
+        try{
+            console.log(cursorMiddle.openKey);
+            console.log(JSON.stringify(vscode.workspace.getConfiguration('cursorMiddle.openKey')))
+            // console.log(vscode.workspace.cursorMiddle.open);
+        }catch(e){
+            console.log(e);
+        }
         console.log('1--. 插件是否启用', this.isOpenCenterLine);
     })
     // 方向下 绑定功能 -- 未完成
     let downCenter = vscode.commands.registerCommand('extension.downLineCenter',function () {
-        if(!this.isOpenCenterLine) return ;
+        if(!this.isOpenCenterLine) {
+
+            return ;
+        }
         vscode.commands.executeCommand("workbench.action.interactivePlayground.arrowDown");
         let nextCursorPosition = vscode.window.activeTextEditor.selection.active.translate(3, 0);
         let newRange = new vscode.Range(nextCursorPosition, nextCursorPosition.translate(0, 1));
